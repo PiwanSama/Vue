@@ -17,22 +17,28 @@
 
 <script>
 
-    var apiKey = '37yMLcqqxVgZS2J7fGMMJnzSKtox0gtqhZcxwb4o';
-    var url = 'https://api.nasa.gov/planetary/apod?api_key='+apiKey;
-
     var vm = new Vue({
         el:'#app',
         data:{
            imgSrc:'',
            imgTitle:''
-        }
-    });
-
-    axios.get(url)
+        },
+        created: function(){
+            this.fetchApod();
+        },
+        methods:{
+            fetchApod:function(){
+                var apiKey = '37yMLcqqxVgZS2J7fGMMJnzSKtox0gtqhZcxwb4o';
+    var url = 'https://api.nasa.gov/planetary/apod?api_key='+apiKey;
+                axios.get(url)
         .then(function(res){
             vm.imgSrc = res.data.url;
             vm.imgTitle = res.data.title;
         });
+            }
+        }
+    });
+
 </script>
 
 </html>
