@@ -8,7 +8,8 @@
 
 <div id="app">
     <div class="container">
-        <img :src="imgSrc" :title="imgTitle">
+       <a-pod></a-pod>
+       <a-pod date="2018-08-07"></a-pod>
     </div>
 </div>
 
@@ -17,11 +18,16 @@
 
 <script>
 
-    var vm = new Vue({
-        el:'#app',
-        data:{
-           imgSrc:'',
+    Vue.component('a-pod',{
+        template: '<div>\
+            <img width="300" height="200" :src="imgSrc" :title="imgTitle">\
+            <p>{{date || "today"}}</p></div>',
+        props:['date'],
+        data: function(){
+          return{
+            imgSrc:'',
            imgTitle:''
+          }
         },
         created: function(){
             this.fetchApod();
@@ -30,13 +36,21 @@
             fetchApod:function(){
                 var apiKey = '37yMLcqqxVgZS2J7fGMMJnzSKtox0gtqhZcxwb4o';
     var url = 'https://api.nasa.gov/planetary/apod?api_key='+apiKey;
+    if(this.date){
+        url+= '&date='+this.date;
+    }
+    var self = this;
                 axios.get(url)
         .then(function(res){
-            vm.imgSrc = res.data.url;
-            vm.imgTitle = res.data.title;
+            self.imgSrc = res.data.url;
+            self.imgTitle = res.data.title;
         });
             }
         }
+    });
+
+    var vm = new Vue({
+        el:'#app'
     });
 
 </script>
