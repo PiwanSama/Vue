@@ -8,8 +8,14 @@
 
 <div id="app">
     <div class="container">
-       <a-pod></a-pod>
-       <a-pod date="2018-08-07"></a-pod>
+       <a-pod>
+           <h3 slot="title">#1</h3>
+           <p slot="caption">Here's today's picure of the day!</p>
+       </a-pod>
+       <a-pod date="2018-08-07">
+            <h3 slot="title">#2</h3>
+            <p slot="caption" slot-scope="pic">Here's the picure for {{pic.date}}</p>
+       </a-pod>
     </div>
 </div>
 
@@ -20,8 +26,9 @@
 
     Vue.component('a-pod',{
         template: '<div>\
+            <slot name="title"><h3>Untitled</h3></slot>\
             <img width="300" height="200" :src="imgSrc" :title="imgTitle">\
-            <p>{{date || "today"}}</p></div>',
+            <slot name="caption" :date="date"><p>Unknown date</p></slot>',
         props:['date'],
         data: function(){
           return{
